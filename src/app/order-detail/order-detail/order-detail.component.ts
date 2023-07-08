@@ -18,7 +18,7 @@ export class OrderDetailComponent implements OnInit {
   supplierControl = new FormControl<string>('', [Validators.required]);
   locationControl = new FormControl<string>('', [Validators.required]);
   supplierInvoice = new FormControl<string>('', [Validators.required, Validators.pattern('^[0-9]*$')]);
-  orderNotes = new FormControl<string>('');
+  orderNotes = new FormControl<string>('', [Validators.max(200)]);
 
   /**
    * Deduced from the type of dummy data being fetched
@@ -29,7 +29,6 @@ export class OrderDetailComponent implements OnInit {
 
   products: ApiObject[] | undefined;
   locations: string[] = ['default Location'];
-  selectedLocation: string = '';
 
   constructor(private route: ActivatedRoute, private formBuilder: FormBuilder) {
     this.orderDetailsForm = this.formBuilder.group({
