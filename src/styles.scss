@@ -1,3 +1,5 @@
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+
 /* You can add global styles to this file, and also import other style files */
 html, body {
   padding: 0;
@@ -9,9 +11,13 @@ html {
 }
 
 :root {
-  ---header-offset: 7rem;
+  ---header-offset: 10rem;
 }
 
 .tab-bar-offset {
   margin-top: var(---header-offset);
+}
+
+.curved-border {
+  border-radius: 0.5rem;
 }

@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {map, Observable, startWith} from "rxjs";
+import {FormControl} from "@angular/forms";
+
 
 @Component({
   selector: 'app-order-detail',
@@ -7,9 +10,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OrderDetailComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor() {
   }
 
+  ngOnInit() {
+  }
 }
