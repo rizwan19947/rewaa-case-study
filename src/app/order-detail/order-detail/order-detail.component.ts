@@ -15,15 +15,20 @@ interface Supplier {
 })
 export class OrderDetailComponent implements OnInit {
   supplierFormControl = new FormControl<string>('', [Validators.required]);
+  locationControl = new FormControl<string>('', [Validators.required]);
+  supplierInvoice = new FormControl<string>('', [Validators.required, Validators.pattern('^[0-9]*$')]);
+  orderNotes = new FormControl<string>('');
 
   /**
    * Deduced from the type of dummy data being fetched
    */
   supplierOptions: Supplier[] = [{name: 'Clothing Supplier'}, {name: 'Accessories Supplier'}, {name: 'Tech Supplier'}, {name: 'Fashion Supplier'}];
 
-  filteredOptions: Observable<Supplier[]> | undefined;
+  supplierFilteredOptions: Observable<Supplier[]> | undefined;
 
   products: ApiObject[] | undefined;
+  locations: string[] = ['default Location'];
+  selectedLocation: string = '';
 
   constructor(private route: ActivatedRoute) {
   }
@@ -34,7 +39,7 @@ export class OrderDetailComponent implements OnInit {
      */
     ({products: this.products} = this.route.snapshot.data);
 
-    this.filteredOptions = this.supplierFormControl.valueChanges.pipe(
+    this.supplierFilteredOptions = this.supplierFormControl.valueChanges.pipe(
       startWith(''),
       map(value => {
         /**
@@ -43,7 +48,7 @@ export class OrderDetailComponent implements OnInit {
          */
           // @ts-ignore
         const name = typeof value === 'string' ? value : value?.name;
-        return name ? this._filter(name as string) : this.supplierOptions.slice();
+        return name ? this._filterSupplier(name as string) : this.supplierOptions.slice();
       }),
     );
 
@@ -55,7 +60,7 @@ export class OrderDetailComponent implements OnInit {
     return user && user.name ? user.name : '';
   }
 
-  private _filter(name: string): Supplier[] {
+  private _filterSupplier(name: string): Supplier[] {
     const filterValue = name.toLowerCase();
 
     return this.supplierOptions.filter(option => option.name.toLowerCase().includes(filterValue));
