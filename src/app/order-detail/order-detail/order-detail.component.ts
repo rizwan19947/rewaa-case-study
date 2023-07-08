@@ -29,6 +29,7 @@ export class OrderDetailComponent implements OnInit {
 
   products: ApiObject[] | undefined;
   locations: string[] = ['default Location'];
+  readonly taxRatio: number = 0.15;
 
   constructor(private route: ActivatedRoute, private formBuilder: FormBuilder) {
     this.orderDetailsForm = this.formBuilder.group({
