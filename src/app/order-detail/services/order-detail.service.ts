@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {Observable, take} from "rxjs";
 
 export interface ApiObject {
   title: string;
@@ -24,7 +24,7 @@ export class OrderDetailService {
   }
 
   fetchProducts(): Observable<ApiObject[]> {
-    return this.http.get<ApiObject[]>('https://fakestoreapi.com/products');
+    return this.http.get<ApiObject[]>('https://fakestoreapi.com/products').pipe(take(1));
   }
 
 }
