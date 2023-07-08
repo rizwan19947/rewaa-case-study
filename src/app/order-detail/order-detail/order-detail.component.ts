@@ -46,6 +46,17 @@ export class OrderDetailComponent implements OnInit {
      */
     ({products: this.products} = this.route.snapshot.data);
 
+    this.assignSupplierFilteredOptions();
+
+    console.warn("Getting product list from resolver:");
+    console.warn(this.products);
+  }
+
+  supplierDisplayFn(user: Supplier): string {
+    return user && user.name ? user.name : '';
+  }
+
+  private assignSupplierFilteredOptions() {
     this.supplierFilteredOptions = this.supplierControl.valueChanges.pipe(
       startWith(''),
       map(value => {
@@ -58,13 +69,6 @@ export class OrderDetailComponent implements OnInit {
         return name ? this._filterSupplier(name as string) : this.supplierOptions.slice();
       }),
     );
-
-    console.warn("Getting product list from resolver:");
-    console.warn(this.products);
-  }
-
-  supplierDisplayFn(user: Supplier): string {
-    return user && user.name ? user.name : '';
   }
 
   private _filterSupplier(name: string): Supplier[] {
