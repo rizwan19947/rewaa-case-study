@@ -1,5 +1,22 @@
 :host {
 
+  .card-header {
+    margin-bottom: 1rem;
+  }
+
+  .disclaimer {
+    color: gray;
+    display: flex;
+  }
+
+  .disclaimer-info {
+    display: flex;
+    padding-left: 0.25rem;
+    align-items: center;
+    font-size: 0.75rem;
+    color: gray;
+  }
+
   #draft, #submit-button {
     min-height: 40px;
     min-width: 300px;
