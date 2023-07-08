@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {map, Observable, startWith} from "rxjs";
-import {FormControl} from "@angular/forms";
+import {ApiObject} from "../services/order-detail.service";
+import {ActivatedRoute} from "@angular/router";
 
 
 @Component({
@@ -9,10 +9,18 @@ import {FormControl} from "@angular/forms";
   styleUrls: ['./order-detail.component.scss']
 })
 export class OrderDetailComponent implements OnInit {
+  products: ApiObject[] | undefined;
 
-  constructor() {
+  constructor(private route: ActivatedRoute) {
   }
 
   ngOnInit() {
+    /**
+     * Getting data from Resolver
+     */
+    ({products: this.products} = this.route.snapshot.data);
+
+    console.warn("Getting from resolver");
+    console.warn(this.products);
   }
 }
