@@ -24,4 +24,9 @@
     min-height: 25rem;
     grid-column-gap: 2rem;
   }
+
+  ::ng-deep .mat-mdc-card-content {
+    padding-top: 1rem;
+  }
+
 }
