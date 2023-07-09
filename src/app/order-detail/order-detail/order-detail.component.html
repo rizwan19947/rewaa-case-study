@@ -181,29 +181,21 @@
                                      hideToggle>
                   <mat-expansion-panel-header>
                     <mat-panel-title>
-                      Total
+                      {{totalPanelOpenState ? 'Subtotal' : 'Total'}}
                     </mat-panel-title>
                     <mat-panel-title>
-                      {{this.total}}
+                      {{totalPanelOpenState ? 'Subtotal Amount' : 'Total Amount'}}
                     </mat-panel-title>
                   </mat-expansion-panel-header>
                   <div class="costs-container">
                     <div class="cost">
-                      <div>Expected Quantity</div>
-                    </div>
-                    <div class="cost">
                       <div>
-                        Total Cost (Tax Exclusive)
+                        Total Tax
                       </div>
                     </div>
                     <div class="cost">
                       <div>
-                        Tax Amount
-                      </div>
-                    </div>
-                    <div class="cost">
-                      <div>
-                        Total Cost (Tax Inclusive)
+                        Total
                       </div>
                     </div>
                   </div>
