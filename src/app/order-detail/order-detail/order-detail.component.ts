@@ -104,10 +104,7 @@ export class OrderDetailComponent implements OnInit {
     }
   }
 
-  addProductToSelected(product: ProductAutocompleteOptionsObject) {
-    console.warn(product.name);
-    console.warn(product.id);
-
+  addToSelectedProductsList(product: ProductAutocompleteOptionsObject) {
     const foundItem = this.products?.find((item: ApiObject) => item.id === product.id);
 
     if (foundItem) {
@@ -126,7 +123,6 @@ export class OrderDetailComponent implements OnInit {
       this.productAutocompleteControl.reset();
       this.recalculateTotals();
     }
-    console.warn(this.selectedProducts);
   }
 
   addTax(selectedProduct: SelectedProductsObject) {
@@ -134,7 +130,6 @@ export class OrderDetailComponent implements OnInit {
       for (let a = 0; a < this.selectedProducts?.length; a++) {
         if (this.selectedProducts[a].id === selectedProduct.id) {
           this.selectedProducts[a].taxed = true;
-          console.warn(this.selectedProducts[a]);
         }
       }
     }
@@ -146,13 +141,16 @@ export class OrderDetailComponent implements OnInit {
       for (let a = 0; a < this.selectedProducts?.length; a++) {
         if (this.selectedProducts[a].id === selectedProduct.id) {
           this.selectedProducts[a].taxed = false;
-          console.warn(this.selectedProducts[a]);
         }
       }
     }
     this.recheckValidity(selectedProduct);
   }
 
+  /**
+   * Preventing expander to open when clicking inputs/selectors
+   * @param event
+   */
   preventExpanderOpening(event: any) {
     event.stopPropagation();
     event.preventDefault();
@@ -239,6 +237,17 @@ export class OrderDetailComponent implements OnInit {
     /**
      * Accumulate data here and pass it to a function defined in order-detail.service
      * The service will then pass that data to an http request to perform the necessary actions
+     */
+
+    /**
+     * Data of importance
+     * @this.orderDetailsForm.getRawValue()
+     * @this.selectedProducts
+     * @this.debitAmount
+     * @this.creditAmount
+     * @this.paymentPlan
+     * @this.paymentMethod
+     * @this.selectedDate
      */
 
     /**

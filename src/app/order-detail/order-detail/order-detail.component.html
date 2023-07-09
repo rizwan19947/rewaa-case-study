@@ -71,7 +71,7 @@
             </mat-label>
             <input [formControl]="productAutocompleteControl" [matAutocomplete]="auto2" matInput type="text">
             <mat-autocomplete #auto2="matAutocomplete" [displayWith]="productDisplayFn">
-              <mat-option (click)="addProductToSelected(product)"
+              <mat-option (click)="addToSelectedProductsList(product)"
                           *ngFor="let product of productFilteredOptions | async; let i = index"
                           [value]="product">
                 {{product.id}} - {{product.name}}
@@ -90,6 +90,7 @@
                 <div class="heading">Tax Code</div>
               </div>
             </div>
+
             <ng-container *ngFor="let selectedProduct of selectedProducts">
               <div class="table-item">
                 <mat-accordion>
@@ -174,6 +175,7 @@
               </div>
               <mat-divider></mat-divider>
             </ng-container>
+
             <div class="table-item">
               <mat-accordion>
                 <mat-expansion-panel (closed)="totalPanelOpenState = false"
@@ -267,6 +269,7 @@
             </mat-card-content>
           </mat-card>
         </mat-card-content>
+
         <mat-card-content *ngIf="!minimumProductsSelected()">
           <div class="centered-text">
             <mat-icon aria-hidden="false"
@@ -294,7 +297,6 @@
             id="submit-button" mat-flat-button>
       Complete Order
     </button>
-
   </mat-card>
 
 </div>
