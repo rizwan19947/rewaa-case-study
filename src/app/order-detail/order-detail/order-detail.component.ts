@@ -18,6 +18,9 @@ interface SelectedProductsObject extends ApiObject {
   visible: boolean;
   valid: boolean;
   quantity: number;
+  taxAmount: number;
+  totalWithoutTax: number;
+  totalWithTax: number;
 }
 
 @Component({
@@ -52,7 +55,9 @@ export class OrderDetailComponent implements OnInit {
   selectedProducts: SelectedProductsObject[] | undefined = [];
   locations: string[] = ['default Location']; //Assumed to be only one location for now
   readonly taxRatio: number = 0.15;
-  total: number = 0;
+  totalTax: number = 0;
+  totalWithoutTax: number = 0;
+  totalWithTax: number = 0;
   totalPanelOpenState = false;
 
   constructor(private route: ActivatedRoute, private formBuilder: FormBuilder) {
@@ -106,10 +111,14 @@ export class OrderDetailComponent implements OnInit {
         valid: true,
         taxed: false,
         quantity: 1,
+        taxAmount: 0,
+        totalWithoutTax: foundItem.price,
+        totalWithTax: foundItem.price,
       }
 
       this.selectedProducts?.push(selectedProductObject);
       this.productAutocompleteControl.reset();
+      this.recalculateTotals();
     }
     console.warn(this.selectedProducts);
   }
@@ -147,6 +156,7 @@ export class OrderDetailComponent implements OnInit {
     event.stopPropagation();
     event.preventDefault();
     this.selectedProducts = this.selectedProducts?.filter((item: SelectedProductsObject) => item.id !== product.id);
+    this.recalculateTotals();
     console.warn(this.selectedProducts);
   }
 
@@ -159,6 +169,7 @@ export class OrderDetailComponent implements OnInit {
       for (let a = 0; a < this.selectedProducts.length; a++) {
         if (this.selectedProducts[a].id === selectedProduct.id) {
           this.selectedProducts[a].valid = false;
+          return;
         }
       }
     } else {
@@ -166,12 +177,30 @@ export class OrderDetailComponent implements OnInit {
         for (let a = 0; a < this.selectedProducts.length; a++) {
           if (this.selectedProducts[a].id === selectedProduct.id) {
             this.selectedProducts[a].valid = true;
+            this.selectedProducts[a].taxAmount = selectedProduct.taxed ? (selectedProduct.price * selectedProduct.quantity * this.taxRatio) : 0;
+            this.selectedProducts[a].totalWithoutTax = selectedProduct.quantity * selectedProduct.price;
+            this.selectedProducts[a].totalWithTax = (selectedProduct.quantity * selectedProduct.price) + (selectedProduct.taxed ? (selectedProduct.price * selectedProduct.quantity * this.taxRatio) : 0)
+            this.recalculateTotals();
+            console.warn(this.selectedProducts[a]);
+            return;
           }
         }
       }
     }
   }
 
+  recalculateTotals() {
+    if (this.selectedProducts) {
+      this.totalTax = 0;
+      this.totalWithTax = 0;
+      this.totalWithoutTax = 0;
+      for (let a = 0; a < this.selectedProducts.length; a++) {
+        this.totalTax = this.totalTax + this.selectedProducts[a].taxAmount;
+        this.totalWithoutTax = this.totalWithoutTax + this.selectedProducts[a].totalWithoutTax;
+        this.totalWithTax = this.totalWithTax + this.selectedProducts[a].totalWithTax;
+      }
+    }
+  }
 
   private assignProductOptions(products: ApiObject[] | undefined) {
     if (products) {

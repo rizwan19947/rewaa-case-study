@@ -103,7 +103,7 @@
                       <mat-panel-title>
                         <mat-form-field (click)="preventExpanderOpening($event)" appearance="outline">
                           <mat-label>Quantity</mat-label>
-                          <input (ngModelChange)="recheckValidity(selectedProduct)"
+                          <input (keyup)="recheckValidity(selectedProduct)"
                                  [(ngModel)]="selectedProduct.quantity" matInput min="1"
                                  type="number">
                         </mat-form-field>
@@ -112,14 +112,14 @@
                         <mat-form-field (click)="preventExpanderOpening($event)" appearance="outline">
                           <mat-label>New Cost</mat-label>
                           <input (click)="preventExpanderOpening($event)"
-                                 (ngModelChange)="recheckValidity(selectedProduct)"
+                                 (keyup)="recheckValidity(selectedProduct)"
                                  [(ngModel)]="selectedProduct.price"
                                  matInput min="1" type="number">
                         </mat-form-field>
                       </mat-panel-title>
                       <mat-panel-title>
                         <mat-form-field (click)="preventExpanderOpening($event)" appearance="outline">
-                          <mat-label>Tax</mat-label>
+                          <mat-label>Tax: none</mat-label>
                           <mat-select>
                             <mat-option (click)="addTax(selectedProduct)" [value]="selectedProduct.taxed">Value Added
                               Tax
@@ -184,18 +184,18 @@
                       {{totalPanelOpenState ? 'Subtotal' : 'Total'}}
                     </mat-panel-title>
                     <mat-panel-title>
-                      {{totalPanelOpenState ? 'Subtotal Amount' : 'Total Amount'}}
+                      {{totalPanelOpenState ? this.totalWithoutTax : this.totalWithTax}}
                     </mat-panel-title>
                   </mat-expansion-panel-header>
                   <div class="costs-container">
                     <div class="cost">
                       <div>
-                        Total Tax
+                        Total Tax: {{this.totalTax}}
                       </div>
                     </div>
                     <div class="cost">
                       <div>
-                        Total
+                        Total: {{this.totalWithTax}}
                       </div>
                     </div>
                   </div>
