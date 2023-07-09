@@ -64,6 +64,8 @@ export class OrderDetailComponent implements OnInit {
   paymentPlan: string = 'prepaid';
   paymentMethod: string = 'cash';
 
+  selectedDate = new Date();
+
   constructor(private route: ActivatedRoute, private formBuilder: FormBuilder) {
     this.orderDetailsForm = this.formBuilder.group({
       supplier: this.supplierControl,
