@@ -94,7 +94,8 @@
               <div class="table-item">
                 <mat-accordion>
                   <mat-expansion-panel (closed)="selectedProduct.visible = false"
-                                       (opened)="selectedProduct.visible = true">
+                                       (opened)="selectedProduct.visible = true"
+                                       hideToggle>
                     <mat-expansion-panel-header>
                       <mat-panel-title>
                         {{selectedProduct.title}}
@@ -102,38 +103,114 @@
                       <mat-panel-title>
                         <mat-form-field (click)="preventExpanderOpening($event)" appearance="outline">
                           <mat-label>Quantity</mat-label>
-                          <input matInput min="1" type="number">
+                          <input (ngModelChange)="recheckValidity(selectedProduct)"
+                                 [(ngModel)]="selectedProduct.quantity" matInput min="1"
+                                 type="number">
                         </mat-form-field>
                       </mat-panel-title>
                       <mat-panel-title>
                         <mat-form-field (click)="preventExpanderOpening($event)" appearance="outline">
                           <mat-label>New Cost</mat-label>
-                          <input (click)="preventExpanderOpening($event)" matInput min="1" type="number">
+                          <input (click)="preventExpanderOpening($event)"
+                                 (ngModelChange)="recheckValidity(selectedProduct)"
+                                 [(ngModel)]="selectedProduct.price"
+                                 matInput min="1" type="number">
                         </mat-form-field>
                       </mat-panel-title>
                       <mat-panel-title>
                         <mat-form-field (click)="preventExpanderOpening($event)" appearance="outline">
                           <mat-label>Tax</mat-label>
                           <mat-select>
-                            <mat-option [value]="selectedProduct.taxed">Value Added Tax</mat-option>
-                            <mat-option [value]="!selectedProduct.taxed">No Tax</mat-option>
+                            <mat-option (click)="addTax(selectedProduct)" [value]="selectedProduct.taxed">Value Added
+                              Tax
+                            </mat-option>
+                            <mat-option (click)="removeTax(selectedProduct)" [value]="!selectedProduct.taxed">No
+                              Tax
+                            </mat-option>
                           </mat-select>
                         </mat-form-field>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;
                         <mat-icon (click)="deleteSelectedItem(selectedProduct, $event)" aria-hidden="false"
                                   aria-label="Info Icon"
                                   fontIcon="delete"
                                   id="delete-selected-product"></mat-icon>
                       </mat-panel-title>
                     </mat-expansion-panel-header>
-                    <p>I'm visible because I am open</p>
-                    <p>I'm visible because I am open</p>
-                    <p>I'm visible because I am open</p>
-                    <p>I'm visible because I am open</p>
+                    <div class="costs-container">
+                      <div class="cost">
+                        <div>Expected Quantity</div>
+                        <div>
+                          <b>{{selectedProduct.quantity}}</b>
+                        </div>
+                      </div>
+                      <div class="cost">
+                        <div>
+                          Total Cost (Tax Exclusive)
+                        </div>
+                        <div>
+                          <b>{{selectedProduct.quantity * selectedProduct.price}}</b>
+                        </div>
+                      </div>
+                      <div class="cost">
+                        <div>
+                          Tax Amount
+                        </div>
+                        <div>
+                          <b>{{selectedProduct.taxed ? (selectedProduct.price * selectedProduct.quantity * taxRatio) : 0}}</b>
+                        </div>
+                      </div>
+                      <div class="cost">
+                        <div>
+                          Total Cost (Tax Inclusive)
+                        </div>
+                        <div>
+                          <b>{{(selectedProduct.quantity * selectedProduct.price) + (selectedProduct.taxed ? (selectedProduct.price * selectedProduct.quantity * taxRatio) : 0)}}</b>
+                        </div>
+                      </div>
+                    </div>
                   </mat-expansion-panel>
                 </mat-accordion>
               </div>
               <mat-divider></mat-divider>
             </ng-container>
+            <div class="table-item">
+              <mat-accordion>
+                <mat-expansion-panel (closed)="totalPanelOpenState = false"
+                                     (opened)="totalPanelOpenState = true"
+                                     hideToggle>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Total
+                    </mat-panel-title>
+                    <mat-panel-title>
+                      {{this.total}}
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <div class="costs-container">
+                    <div class="cost">
+                      <div>Expected Quantity</div>
+                    </div>
+                    <div class="cost">
+                      <div>
+                        Total Cost (Tax Exclusive)
+                      </div>
+                    </div>
+                    <div class="cost">
+                      <div>
+                        Tax Amount
+                      </div>
+                    </div>
+                    <div class="cost">
+                      <div>
+                        Total Cost (Tax Inclusive)
+                      </div>
+                    </div>
+                  </div>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+            <mat-divider></mat-divider>
           </mat-card>
         </mat-card-content>
       </mat-card>
@@ -141,8 +218,7 @@
   </div>
 
   <mat-card id="submission-container">
-    <!--    TODO RESET FOR WHEN CANCEL PRESSED-->
-    <button class="flex-item" mat-flat-button>Cancel</button>
+    <button (click)="reloadPage()" class="flex-item" mat-flat-button>Cancel</button>
     <button class="flex-item" disabled id="draft" mat-flat-button>Save as Draft</button>
     <button [disabled]="!orderDetailsForm.valid" class="flex-item" color="primary" id="submit-button" mat-flat-button>
       Complete Order

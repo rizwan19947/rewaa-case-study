@@ -17,6 +17,7 @@ interface SelectedProductsObject extends ApiObject {
   taxed: boolean;
   visible: boolean;
   valid: boolean;
+  quantity: number;
 }
 
 @Component({
@@ -51,7 +52,8 @@ export class OrderDetailComponent implements OnInit {
   selectedProducts: SelectedProductsObject[] | undefined = [];
   locations: string[] = ['default Location']; //Assumed to be only one location for now
   readonly taxRatio: number = 0.15;
-  panelOpenState = false;
+  total: number = 0;
+  totalPanelOpenState = false;
 
   constructor(private route: ActivatedRoute, private formBuilder: FormBuilder) {
     this.orderDetailsForm = this.formBuilder.group({
@@ -101,14 +103,41 @@ export class OrderDetailComponent implements OnInit {
       const selectedProductObject: SelectedProductsObject = {
         ...foundItem,
         visible: false,
-        valid: false,
+        valid: true,
         taxed: false,
+        quantity: 1,
       }
 
       this.selectedProducts?.push(selectedProductObject);
       this.productAutocompleteControl.reset();
     }
     console.warn(this.selectedProducts);
+  }
+
+  addTax(selectedProduct: SelectedProductsObject) {
+    if (this.selectedProducts) {
+      for (let a = 0; a < this.selectedProducts?.length; a++) {
+        if (this.selectedProducts[a].id === selectedProduct.id) {
+          this.selectedProducts[a].taxed = true;
+          this.total = this.total + (this.selectedProducts[a].quantity * this.selectedProducts[a].price * this.taxRatio);
+          console.warn(this.selectedProducts[a]);
+        }
+      }
+    }
+    this.recheckValidity(selectedProduct);
+  }
+
+  removeTax(selectedProduct: SelectedProductsObject) {
+    if (this.selectedProducts) {
+      for (let a = 0; a < this.selectedProducts?.length; a++) {
+        if (this.selectedProducts[a].id === selectedProduct.id) {
+          this.selectedProducts[a].taxed = false;
+          this.total = this.total - (this.selectedProducts[a].quantity * this.selectedProducts[a].price * this.taxRatio);
+          console.warn(this.selectedProducts[a]);
+        }
+      }
+    }
+    this.recheckValidity(selectedProduct);
   }
 
   preventExpanderOpening(event: any) {
@@ -122,6 +151,30 @@ export class OrderDetailComponent implements OnInit {
     this.selectedProducts = this.selectedProducts?.filter((item: SelectedProductsObject) => item.id !== product.id);
     console.warn(this.selectedProducts);
   }
+
+  reloadPage() {
+    window.location.reload();
+  }
+
+  recheckValidity(selectedProduct: SelectedProductsObject) {
+    if ((selectedProduct.quantity < 1 || selectedProduct.quantity === null || selectedProduct.price < 1 || selectedProduct.price === null) && this.selectedProducts) {
+      for (let a = 0; a < this.selectedProducts.length; a++) {
+        if (this.selectedProducts[a].id === selectedProduct.id) {
+          this.selectedProducts[a].valid = false;
+        }
+      }
+    } else {
+      if (this.selectedProducts) {
+        this.total = 0;
+        for (let a = 0; a < this.selectedProducts.length; a++) {
+          if (this.selectedProducts[a].id === selectedProduct.id) {
+            this.selectedProducts[a].valid = true;
+          }
+        }
+      }
+    }
+  }
+
 
   private assignProductOptions(products: ApiObject[] | undefined) {
     if (products) {

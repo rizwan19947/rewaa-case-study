@@ -6,7 +6,7 @@ import {OrderDetailComponent} from './order-detail/order-detail.component';
 import {MatCardModule} from "@angular/material/card";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatFormFieldModule} from "@angular/material/form-field";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
 import {MatButtonModule} from "@angular/material/button";
@@ -31,7 +31,8 @@ import {MatExpansionModule} from "@angular/material/expansion";
     MatButtonModule,
     MatIconModule,
     MatDividerModule,
-    MatExpansionModule
+    MatExpansionModule,
+    FormsModule
   ]
 })
 export class OrderDetailModule {

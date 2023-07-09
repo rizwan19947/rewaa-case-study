@@ -1,5 +1,17 @@
 :host {
 
+  .cost {
+    color: gray;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .costs-container {
+    display: grid;
+    place-items: flex-start;
+    grid-template-columns: 1fr 1fr;
+  }
+
   .table-top {
     background-color: whitesmoke;
     max-width: 900px;
