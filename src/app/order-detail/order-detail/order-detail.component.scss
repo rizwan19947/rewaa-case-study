@@ -1,0 +1,179 @@
+:host {
+
+  .cost {
+    color: gray;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .costs-container {
+    display: grid;
+    place-items: flex-start;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .table-top {
+    background-color: whitesmoke;
+    max-width: 900px;
+  }
+
+  .table-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    font-weight: 500;
+    font-size: 1rem;
+  }
+
+  .item {
+    font-size: 1rem;
+    max-width: 8rem;
+  }
+
+  .heading {
+    margin-right: 1rem;
+    font-weight: 700;
+    font-size: 1rem;
+    width: 9rem;
+  }
+
+  ::ng-deep .mat-content {
+    font-size: 1rem;
+    width: 8rem;
+    justify-content: space-around;
+  }
+
+  ::ng-deep .mat-expansion-panel-header-title {
+    font-size: 1rem;
+    width: 8rem;
+    max-height: 6rem;
+    text-overflow: ellipsis;
+  }
+
+  .table-header {
+    background-color: whitesmoke;
+    width: 100%;
+    min-height: 4rem;
+    font-weight: 600;
+    font-size: 1.25rem;
+  }
+
+  #search-label {
+    font-size: 1rem;
+  }
+
+  .card-header {
+    margin-bottom: 1rem;
+  }
+
+  .disclaimer {
+    color: gray;
+    display: flex;
+  }
+
+  .disclaimer-info {
+    display: flex;
+    padding-left: 0.25rem;
+    align-items: center;
+    font-size: 0.75rem;
+    color: gray;
+  }
+
+  #draft, #submit-button {
+    min-height: 40px;
+    min-width: 300px;
+  }
+
+  .flex-item {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+
+  #limit {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    font-size: 1rem;
+    margin-top: -1rem;
+  }
+
+  #submission-container {
+    width: 100%;
+    min-height: 5rem;
+    display: flex;
+    flex-direction: row;
+    vertical-align: middle;
+    justify-content: right;
+    background-color: white;
+    align-items: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .parent-container {
+    width: 100%;
+  }
+
+  .order-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+
+  .full-width {
+    width: 100%;
+  }
+
+  .container {
+    padding: 2rem;
+    max-width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: 1fr 2.5fr;
+    min-height: 25rem;
+    grid-column-gap: 2rem;
+  }
+
+  ::ng-deep .mat-mdc-card-content {
+    padding-top: 1rem;
+  }
+
+  #notes {
+    min-height: 5rem;
+  }
+
+  ::ng-deep .mat-expansion-panel {
+    width: 100%;
+    min-height: 4rem;
+  }
+
+  ::ng-deep .mat-expansion-panel-header {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    min-height: 6rem;
+    width: 95%;
+  }
+
+  ::ng-deep .mat-accordion {
+    width: 100%;
+    min-height: 4rem;
+  }
+
+  #product-table {
+    overflow-y: auto;
+    background-color: whitesmoke;
+  }
+
+  .delete-selected-product {
+    margin-left: 1rem;
+  }
+
+}

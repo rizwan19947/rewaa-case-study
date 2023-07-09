@@ -1,1 +1,36 @@
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 /* You can add global styles to this file, and also import other style files */
+html, body {
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  height: 100% !important;
+  background-color: whitesmoke;
+}
+
+:root {
+  ---header-offset: 10rem;
+  ---card-border-radius: 0.5rem;
+}
+
+.tab-bar-offset {
+  margin-top: var(---header-offset);
+}
+
+.curved-border {
+  border-radius: 0.5rem;
+}
+
+
+//Keep all cards consistent across the mat-library component usages
+::ng-deep .mat-mdc-card {
+  border-radius: var(---card-border-radius);
+}
+
+::ng-deep .mdc-text-field {
+  border: 1px solid lightgray;
+  border-radius: var(---card-border-radius);
+}
