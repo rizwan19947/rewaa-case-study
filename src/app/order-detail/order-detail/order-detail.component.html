@@ -181,16 +181,14 @@
                                      hideToggle>
                   <mat-expansion-panel-header>
                     <mat-panel-title>
-                      {{totalPanelOpenState ? 'Subtotal' : 'Total'}}
-                    </mat-panel-title>
-                    <mat-panel-title>
+                      {{totalPanelOpenState ? 'Subtotal' : 'Total'}} &nbsp;&nbsp;
                       <b>{{totalPanelOpenState ? this.totalWithoutTax : this.totalWithTax}}</b>
                     </mat-panel-title>
                   </mat-expansion-panel-header>
                   <div class="costs-container">
                     <div class="cost">
                       <div>
-                        Total Tax: <b>{{this.totalTax}}</b>
+                        Total Tax: <b>+{{this.totalTax}}</b>
                       </div>
                     </div>
                     <div class="cost">
