@@ -221,7 +221,7 @@ export class OrderDetailComponent implements OnInit {
     }
 
     if (this.paymentMethod === 'prepaid') {
-      if (this.debitAmount < 1) {
+      if (this.debitAmount < (this.totalWithTax / 2)) {
         return false;
       }
       if (!this.selectedDate) {
@@ -232,17 +232,7 @@ export class OrderDetailComponent implements OnInit {
         return false;
       }
     }
-
-
     return true;
-    //
-    // for (let a = 0; a < this.selectedProducts.length; a++) {
-    //   if (!this.selectedProducts[a].valid) {
-    //     return false;
-    //   }
-    // }
-    //
-    // return true;
   }
 
   private assignProductOptions(products: ApiObject[] | undefined) {
