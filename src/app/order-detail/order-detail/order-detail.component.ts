@@ -119,7 +119,6 @@ export class OrderDetailComponent implements OnInit {
       for (let a = 0; a < this.selectedProducts?.length; a++) {
         if (this.selectedProducts[a].id === selectedProduct.id) {
           this.selectedProducts[a].taxed = true;
-          this.total = this.total + (this.selectedProducts[a].quantity * this.selectedProducts[a].price * this.taxRatio);
           console.warn(this.selectedProducts[a]);
         }
       }
@@ -132,7 +131,6 @@ export class OrderDetailComponent implements OnInit {
       for (let a = 0; a < this.selectedProducts?.length; a++) {
         if (this.selectedProducts[a].id === selectedProduct.id) {
           this.selectedProducts[a].taxed = false;
-          this.total = this.total - (this.selectedProducts[a].quantity * this.selectedProducts[a].price * this.taxRatio);
           console.warn(this.selectedProducts[a]);
         }
       }
@@ -165,7 +163,6 @@ export class OrderDetailComponent implements OnInit {
       }
     } else {
       if (this.selectedProducts) {
-        this.total = 0;
         for (let a = 0; a < this.selectedProducts.length; a++) {
           if (this.selectedProducts[a].id === selectedProduct.id) {
             this.selectedProducts[a].valid = true;
