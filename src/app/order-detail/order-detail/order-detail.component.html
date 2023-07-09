@@ -81,27 +81,44 @@
         </mat-card-content>
 
         <mat-card-content>
-          <mat-card>
-            <div class="table-header table-item">
-              <div class="heading">Product Name / SKU</div>
-              <div class="heading">New QTY</div>
-              <div class="heading">New Cost (Tax Exclusive)</div>
-              <div class="heading">Tax Code</div>
+          <mat-card id="product-table">
+            <div class="table-top">
+              <div class="table-header table-item">
+                <div class="heading">Product Name / SKU</div>
+                <div class="heading">New QTY</div>
+                <div class="heading">New Cost (Tax Exclusive)</div>
+                <div class="heading">Tax Code</div>
+              </div>
             </div>
-            <mat-divider></mat-divider>
-            <ng-container>
+            <ng-container *ngFor="let selectedProduct of selectedProducts">
               <div class="table-item">
-                <div class="item">Product Name / SKU</div>
-                <div class="item">New QTY</div>
-                <div class="item">New Cost (Tax Exclusive)</div>
-                <div class="item">Tax Code</div>
+                <mat-accordion>
+                  <mat-expansion-panel (closed)="selectedProduct.visible = false"
+                                       (opened)="selectedProduct.visible = true">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        {{selectedProduct.title}}
+                      </mat-panel-title>
+                      <mat-panel-title>
+                        Self aware panel
+                        Self aware panel
+                        Self aware panel
+                      </mat-panel-title>
+                      <mat-panel-title>
+                        Self aware panel
+                      </mat-panel-title>
+                      <mat-panel-title>
+                        Self aware panel
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <p>I'm visible because I am open</p>
+                  </mat-expansion-panel>
+                </mat-accordion>
               </div>
               <mat-divider></mat-divider>
             </ng-container>
-            <br/>
           </mat-card>
         </mat-card-content>
-
       </mat-card>
     </div>
   </div>

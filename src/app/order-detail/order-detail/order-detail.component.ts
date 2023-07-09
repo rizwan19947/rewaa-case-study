@@ -13,6 +13,11 @@ interface ProductAutocompleteOptionsObject {
   name: string;
 }
 
+interface SelectedProductsObject extends ApiObject {
+  visible: boolean;
+  valid: boolean;
+}
+
 @Component({
   selector: 'app-order-detail',
   templateUrl: './order-detail.component.html',
@@ -42,9 +47,10 @@ export class OrderDetailComponent implements OnInit {
 
 
   products: ApiObject[] | undefined;
-  selectedProducts: ApiObject[] | undefined = [];
+  selectedProducts: SelectedProductsObject[] | undefined = [];
   locations: string[] = ['default Location']; //Assumed to be only one location for now
   readonly taxRatio: number = 0.15;
+  panelOpenState = false;
 
   constructor(private route: ActivatedRoute, private formBuilder: FormBuilder) {
     this.orderDetailsForm = this.formBuilder.group({
@@ -91,10 +97,15 @@ export class OrderDetailComponent implements OnInit {
     const foundItem = this.products?.find((item: ApiObject) => item.id === product.id);
 
     if (foundItem) {
-      this.selectedProducts?.push(foundItem);
+      const selectedProductObject: SelectedProductsObject = {
+        ...foundItem,
+        visible: false,
+        valid: false,
+      }
+
+      this.selectedProducts?.push(selectedProductObject);
       this.productAutocompleteControl.reset();
     }
-
     console.warn(this.selectedProducts);
   }
 
