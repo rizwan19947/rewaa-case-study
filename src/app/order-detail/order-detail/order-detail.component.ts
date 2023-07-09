@@ -209,6 +209,42 @@ export class OrderDetailComponent implements OnInit {
     }
   }
 
+  selectedProductsListIsValid(): boolean {
+    if (!this.selectedProducts || this.selectedProducts.length < 1) {
+      return false;
+    }
+
+    for (let a = 0; a < this.selectedProducts.length; a++) {
+      if (!this.selectedProducts[a].valid) {
+        return false;
+      }
+    }
+
+    if (this.paymentMethod === 'prepaid') {
+      if (this.debitAmount < 1) {
+        return false;
+      }
+      if (!this.selectedDate) {
+        return false;
+      }
+
+      if (this.selectedDate < (new Date())) {
+        return false;
+      }
+    }
+
+
+    return true;
+    //
+    // for (let a = 0; a < this.selectedProducts.length; a++) {
+    //   if (!this.selectedProducts[a].valid) {
+    //     return false;
+    //   }
+    // }
+    //
+    // return true;
+  }
+
   private assignProductOptions(products: ApiObject[] | undefined) {
     if (products) {
       for (let a = 0; a < products.length; a++) {
