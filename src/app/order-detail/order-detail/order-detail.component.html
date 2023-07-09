@@ -184,18 +184,18 @@
                       {{totalPanelOpenState ? 'Subtotal' : 'Total'}}
                     </mat-panel-title>
                     <mat-panel-title>
-                      {{totalPanelOpenState ? this.totalWithoutTax : this.totalWithTax}}
+                      <b>{{totalPanelOpenState ? this.totalWithoutTax : this.totalWithTax}}</b>
                     </mat-panel-title>
                   </mat-expansion-panel-header>
                   <div class="costs-container">
                     <div class="cost">
                       <div>
-                        Total Tax: {{this.totalTax}}
+                        Total Tax: <b>{{this.totalTax}}</b>
                       </div>
                     </div>
                     <div class="cost">
                       <div>
-                        Total: {{this.totalWithTax}}
+                        Total: <b>{{this.totalWithTax}}</b>
                       </div>
                     </div>
                   </div>
