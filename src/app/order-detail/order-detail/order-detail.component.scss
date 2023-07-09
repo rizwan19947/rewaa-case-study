@@ -144,6 +144,8 @@
   }
 
   ::ng-deep .mat-expansion-panel-header {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
     min-height: 6rem;
     width: 95%;
   }
@@ -156,6 +158,10 @@
   #product-table {
     overflow-y: auto;
     background-color: whitesmoke;
+  }
+
+  .delete-selected-product {
+    margin-left: 1rem;
   }
 
 }

@@ -14,6 +14,7 @@ interface ProductAutocompleteOptionsObject {
 }
 
 interface SelectedProductsObject extends ApiObject {
+  taxed: boolean;
   visible: boolean;
   valid: boolean;
 }
@@ -101,11 +102,24 @@ export class OrderDetailComponent implements OnInit {
         ...foundItem,
         visible: false,
         valid: false,
+        taxed: false,
       }
 
       this.selectedProducts?.push(selectedProductObject);
       this.productAutocompleteControl.reset();
     }
+    console.warn(this.selectedProducts);
+  }
+
+  preventExpanderOpening(event: any) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+
+  deleteSelectedItem(product: SelectedProductsObject, event: any) {
+    event.stopPropagation();
+    event.preventDefault();
+    this.selectedProducts = this.selectedProducts?.filter((item: SelectedProductsObject) => item.id !== product.id);
     console.warn(this.selectedProducts);
   }
 
