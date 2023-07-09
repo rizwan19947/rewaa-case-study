@@ -8,12 +8,26 @@ interface AutocompleteOptionsObject {
   name: string;
 }
 
+interface ProductAutocompleteOptionsObject {
+  id: number;
+  name: string;
+}
+
 @Component({
   selector: 'app-order-detail',
   templateUrl: './order-detail.component.html',
   styleUrls: ['./order-detail.component.scss']
 })
+
 export class OrderDetailComponent implements OnInit {
+
+  /**
+   * For autocomplete
+   */
+  productAutocompleteControl = new FormControl<string>('');
+  supplierFilteredOptions: Observable<AutocompleteOptionsObject[]> | undefined;
+  productFilteredOptions: Observable<ProductAutocompleteOptionsObject[]> | undefined;
+
   orderDetailsForm: FormGroup;
   supplierControl = new FormControl<string>('', [Validators.required]);
   locationControl = new FormControl<string>('', [Validators.required]);
@@ -21,21 +35,15 @@ export class OrderDetailComponent implements OnInit {
   orderNotes = new FormControl<string>('', [Validators.max(200)]);
 
   /**
-   * Only for autocomplete
-   */
-  productAutocompleteControl = new FormControl<string>('');
-
-  /**
    * Deduced from the type of dummy data being fetched
    */
   supplierOptions: AutocompleteOptionsObject[] = [{name: 'Clothing Supplier'}, {name: 'Accessories Supplier'}, {name: 'Tech Supplier'}, {name: 'Fashion Supplier'}];
-  productOptions: AutocompleteOptionsObject[] = [];
+  productOptions: ProductAutocompleteOptionsObject[] = [];
 
-  supplierFilteredOptions: Observable<AutocompleteOptionsObject[]> | undefined;
-  productFilteredOptions: Observable<AutocompleteOptionsObject[]> | undefined;
 
   products: ApiObject[] | undefined;
-  locations: string[] = ['default Location'];
+  selectedProducts: ApiObject[] | undefined = [];
+  locations: string[] = ['default Location']; //Assumed to be only one location for now
   readonly taxRatio: number = 0.15;
 
   constructor(private route: ActivatedRoute, private formBuilder: FormBuilder) {
@@ -53,6 +61,9 @@ export class OrderDetailComponent implements OnInit {
      */
     ({products: this.products} = this.route.snapshot.data);
 
+    /**
+     * Initializing Mat-Autocompletes
+     */
     this.assignProductOptions(this.products);
     this.assignProductFilteredOptions();
     this.assignSupplierFilteredOptions();
@@ -61,8 +72,8 @@ export class OrderDetailComponent implements OnInit {
     console.warn(this.products);
   }
 
-  supplierDisplayFn(user: AutocompleteOptionsObject): string {
-    return user && user.name ? user.name : '';
+  supplierDisplayFn(supplier: AutocompleteOptionsObject): string {
+    return supplier && supplier.name ? supplier.name : '';
   }
 
   productDisplayFn(product: ApiObject): string {
@@ -73,11 +84,26 @@ export class OrderDetailComponent implements OnInit {
     }
   }
 
+  addProductToSelected(product: ProductAutocompleteOptionsObject) {
+    console.warn(product.name);
+    console.warn(product.id);
+
+    const foundItem = this.products?.find((item: ApiObject) => item.id === product.id);
+
+    if (foundItem) {
+      this.selectedProducts?.push(foundItem);
+      this.productAutocompleteControl.reset();
+    }
+
+    console.warn(this.selectedProducts);
+  }
+
   private assignProductOptions(products: ApiObject[] | undefined) {
     if (products) {
       for (let a = 0; a < products.length; a++) {
         this.productOptions.push({
-          name: `${products[a].id} ${products[a].title}`,
+          name: products[a].title,
+          id: products[a].id,
         });
       }
     }
@@ -113,8 +139,7 @@ export class OrderDetailComponent implements OnInit {
     );
   }
 
-
-  private _filterProducts(name: string): AutocompleteOptionsObject[] {
+  private _filterProducts(name: string): ProductAutocompleteOptionsObject[] {
     const filterValue = name.toLowerCase();
 
     return this.productOptions.filter(option => option.name.toLowerCase().includes(filterValue));
