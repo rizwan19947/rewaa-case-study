@@ -1,5 +1,21 @@
 :host {
 
+  .credit {
+    color: maroon;
+    font-size: 1rem;
+  }
+
+  .prepaid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    place-items: flex-start;
+  }
+
+  .payment {
+    padding-left: 1rem;
+    font-size: 1rem;
+  }
+
   .cost {
     color: gray;
     font-size: 1rem;

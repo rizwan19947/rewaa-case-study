@@ -201,6 +201,57 @@
               </mat-accordion>
             </div>
             <mat-divider></mat-divider>
+            <mat-card-content>
+              <mat-radio-group
+                [(ngModel)]="paymentPlan"
+                aria-labelledby="example-radio-group-label"
+                class="example-radio-group">
+                <mat-radio-button [value]="'prepaid'">
+                  Pay Now
+                </mat-radio-button>
+                <mat-radio-button [value]="'postpaid'">
+                  Pay Later
+                </mat-radio-button>
+              </mat-radio-group>
+              <div>
+                <br/>
+                <ng-container *ngIf="paymentPlan === 'prepaid'">
+                  <div class="prepaid-container">
+                    <div class="payment">Payment Method</div>
+                    <div class="payment">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Choose an option</mat-label>
+                        <mat-select [(ngModel)]="paymentMethod">
+                          <mat-option value="cash">Cash</mat-option>
+                          <mat-option disabled value="card">Credit Card</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="payment">
+                      Paid Amount
+                    </div>
+                    <div class="payment">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Amount</mat-label>
+                        <input [(ngModel)]="debitAmount" matInput/>
+                      </mat-form-field>
+                    </div>
+                    <div class="payment">
+                      Credit Amount
+                    </div>
+                    <div class="payment">
+                      <b class="credit">{{this.totalWithTax - this.debitAmount}}</b>
+                    </div>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="paymentPlan === 'postpaid'">
+                  <div class="prepaid-container">
+                    <div class="payment">Credit Amount:</div>
+                    <div class="credit"><b>{{this.totalWithTax}}</b></div>
+                  </div>
+                </ng-container>
+              </div>
+            </mat-card-content>
           </mat-card>
         </mat-card-content>
       </mat-card>

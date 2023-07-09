@@ -59,6 +59,10 @@ export class OrderDetailComponent implements OnInit {
   totalWithoutTax: number = 0;
   totalWithTax: number = 0;
   totalPanelOpenState = false;
+  debitAmount: number = 0;
+  creditAmount: number = 0;
+  paymentPlan: string = 'prepaid';
+  paymentMethod: string = 'cash';
 
   constructor(private route: ActivatedRoute, private formBuilder: FormBuilder) {
     this.orderDetailsForm = this.formBuilder.group({
@@ -198,6 +202,7 @@ export class OrderDetailComponent implements OnInit {
         this.totalTax = this.totalTax + this.selectedProducts[a].taxAmount;
         this.totalWithoutTax = this.totalWithoutTax + this.selectedProducts[a].totalWithoutTax;
         this.totalWithTax = this.totalWithTax + this.selectedProducts[a].totalWithTax;
+        this.debitAmount = this.totalWithTax;
       }
     }
   }
