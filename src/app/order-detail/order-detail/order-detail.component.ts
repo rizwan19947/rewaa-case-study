@@ -235,6 +235,18 @@ export class OrderDetailComponent implements OnInit {
     return true;
   }
 
+  submitOrder() {
+    /**
+     * Accumulate data here and pass it to a function defined in order-detail.service
+     * The service will then pass that data to an http request to perform the necessary actions
+     */
+
+    /**
+     * Temporary
+     */
+    window.location.reload();
+  }
+
   private assignProductOptions(products: ApiObject[] | undefined) {
     if (products) {
       for (let a = 0; a < products.length; a++) {

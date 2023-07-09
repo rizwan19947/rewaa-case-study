@@ -274,7 +274,8 @@
   <mat-card id="submission-container">
     <button (click)="reloadPage()" class="flex-item" mat-flat-button>Cancel</button>
     <button class="flex-item" disabled id="draft" mat-flat-button>Save as Draft</button>
-    <button [disabled]="!orderDetailsForm.valid || !selectedProductsListIsValid()" class="flex-item" color="primary"
+    <button (click)="submitOrder()" [disabled]="!orderDetailsForm.valid || !selectedProductsListIsValid()"
+            class="flex-item" color="primary"
             id="submit-button" mat-flat-button>
       Complete Order
     </button>
