@@ -59,6 +59,12 @@ export class OrderDetailComponent implements OnInit {
   totalWithoutTax: number = 0;
   totalWithTax: number = 0;
   totalPanelOpenState = false;
+  debitAmount: number = 0;
+  creditAmount: number = 0;
+  paymentPlan: string = 'prepaid';
+  paymentMethod: string = 'cash';
+
+  selectedDate = new Date();
 
   constructor(private route: ActivatedRoute, private formBuilder: FormBuilder) {
     this.orderDetailsForm = this.formBuilder.group({
@@ -98,10 +104,7 @@ export class OrderDetailComponent implements OnInit {
     }
   }
 
-  addProductToSelected(product: ProductAutocompleteOptionsObject) {
-    console.warn(product.name);
-    console.warn(product.id);
-
+  addToSelectedProductsList(product: ProductAutocompleteOptionsObject) {
     const foundItem = this.products?.find((item: ApiObject) => item.id === product.id);
 
     if (foundItem) {
@@ -120,7 +123,6 @@ export class OrderDetailComponent implements OnInit {
       this.productAutocompleteControl.reset();
       this.recalculateTotals();
     }
-    console.warn(this.selectedProducts);
   }
 
   addTax(selectedProduct: SelectedProductsObject) {
@@ -128,7 +130,6 @@ export class OrderDetailComponent implements OnInit {
       for (let a = 0; a < this.selectedProducts?.length; a++) {
         if (this.selectedProducts[a].id === selectedProduct.id) {
           this.selectedProducts[a].taxed = true;
-          console.warn(this.selectedProducts[a]);
         }
       }
     }
@@ -140,13 +141,16 @@ export class OrderDetailComponent implements OnInit {
       for (let a = 0; a < this.selectedProducts?.length; a++) {
         if (this.selectedProducts[a].id === selectedProduct.id) {
           this.selectedProducts[a].taxed = false;
-          console.warn(this.selectedProducts[a]);
         }
       }
     }
     this.recheckValidity(selectedProduct);
   }
 
+  /**
+   * Preventing expander to open when clicking inputs/selectors
+   * @param event
+   */
   preventExpanderOpening(event: any) {
     event.stopPropagation();
     event.preventDefault();
@@ -198,8 +202,65 @@ export class OrderDetailComponent implements OnInit {
         this.totalTax = this.totalTax + this.selectedProducts[a].taxAmount;
         this.totalWithoutTax = this.totalWithoutTax + this.selectedProducts[a].totalWithoutTax;
         this.totalWithTax = this.totalWithTax + this.selectedProducts[a].totalWithTax;
+        this.debitAmount = this.totalWithTax;
       }
     }
+  }
+
+  selectedProductsListIsValid(): boolean {
+    if (!this.selectedProducts || this.selectedProducts.length < 1) {
+      return false;
+    }
+
+    for (let a = 0; a < this.selectedProducts.length; a++) {
+      if (!this.selectedProducts[a].valid) {
+        return false;
+      }
+    }
+
+    if (this.paymentMethod === 'prepaid') {
+      if (this.debitAmount < (this.totalWithTax / 2)) {
+        return false;
+      }
+      if (!this.selectedDate) {
+        return false;
+      }
+
+      if (this.selectedDate < (new Date())) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  submitOrder() {
+    /**
+     * Accumulate data here and pass it to a function defined in order-detail.service
+     * The service will then pass that data to an http request to perform the necessary actions
+     */
+
+    /**
+     * Data of importance
+     * @this.orderDetailsForm.getRawValue()
+     * @this.selectedProducts
+     * @this.debitAmount
+     * @this.creditAmount
+     * @this.paymentPlan
+     * @this.paymentMethod
+     * @this.selectedDate
+     */
+
+    /**
+     * Temporary
+     */
+    window.location.reload();
+  }
+
+  minimumProductsSelected() {
+    if (this.selectedProducts) {
+      return this.selectedProducts.length > 0;
+    }
+    return false;
   }
 
   private assignProductOptions(products: ApiObject[] | undefined) {

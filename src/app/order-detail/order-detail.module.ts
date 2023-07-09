@@ -13,6 +13,9 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatExpansionModule} from "@angular/material/expansion";
+import {MatRadioModule} from "@angular/material/radio";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from '@angular/material/core';
 
 
 @NgModule({
@@ -32,7 +35,10 @@ import {MatExpansionModule} from "@angular/material/expansion";
     MatIconModule,
     MatDividerModule,
     MatExpansionModule,
-    FormsModule
+    FormsModule,
+    MatRadioModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ]
 })
 export class OrderDetailModule {
