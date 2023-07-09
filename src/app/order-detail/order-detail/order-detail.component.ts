@@ -247,6 +247,13 @@ export class OrderDetailComponent implements OnInit {
     window.location.reload();
   }
 
+  minimumProductsSelected() {
+    if (this.selectedProducts) {
+      return this.selectedProducts.length > 0;
+    }
+    return false;
+  }
+
   private assignProductOptions(products: ApiObject[] | undefined) {
     if (products) {
       for (let a = 0; a < products.length; a++) {

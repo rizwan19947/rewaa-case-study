@@ -52,7 +52,7 @@
           </div>
 
           <div class="disclaimer">
-            <mat-icon aria-hidden="false" aria-label="Info Icon" fontIcon="info"
+            <mat-icon aria-hidden="false" aria-label="Disclaimer Icon" fontIcon="info"
                       inline></mat-icon>
             <mat-label class="disclaimer-info">
               Products Qty, the average product cost and the latest buying price are updated
@@ -80,7 +80,7 @@
           </mat-form-field>
         </mat-card-content>
 
-        <mat-card-content>
+        <mat-card-content *ngIf="minimumProductsSelected()">
           <mat-card id="product-table">
             <div class="table-top">
               <div class="table-header table-item">
@@ -132,7 +132,7 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <mat-icon (click)="deleteSelectedItem(selectedProduct, $event)" aria-hidden="false"
-                                  aria-label="Info Icon"
+                                  aria-label="Delete Icon"
                                   fontIcon="delete"
                                   id="delete-selected-product"></mat-icon>
                       </mat-panel-title>
@@ -266,6 +266,21 @@
               </div>
             </mat-card-content>
           </mat-card>
+        </mat-card-content>
+        <mat-card-content *ngIf="!minimumProductsSelected()">
+          <div class="centered-text">
+            <mat-icon aria-hidden="false"
+                      aria-label="Inventory Icon"
+                      fontIcon="inventory"
+                      inline
+            ></mat-icon>
+            &nbsp; Scan for Products that you would like to include in your purchase order &nbsp;
+            <mat-icon aria-hidden="false"
+                      aria-label="Inventory Icon"
+                      fontIcon="inventory"
+                      inline
+            ></mat-icon>
+          </div>
         </mat-card-content>
       </mat-card>
     </div>
