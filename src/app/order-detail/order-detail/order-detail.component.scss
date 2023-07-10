@@ -15,6 +15,12 @@
     place-items: flex-start;
   }
 
+  .postpaid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    place-items: flex-start;
+  }
+
   .payment {
     padding-left: 1rem;
     font-size: 1rem;
