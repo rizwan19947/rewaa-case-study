@@ -87,9 +87,6 @@ export class OrderDetailComponent implements OnInit {
     this.assignProductOptions(this.products);
     this.assignProductFilteredOptions();
     this.assignSupplierFilteredOptions();
-
-    console.warn("Getting product list from resolver:");
-    console.warn(this.products);
   }
 
   supplierDisplayFn(supplier: AutocompleteOptionsObject): string {
@@ -161,7 +158,6 @@ export class OrderDetailComponent implements OnInit {
     event.preventDefault();
     this.selectedProducts = this.selectedProducts?.filter((item: SelectedProductsObject) => item.id !== product.id);
     this.recalculateTotals();
-    console.warn(this.selectedProducts);
   }
 
   reloadPage() {
@@ -169,7 +165,7 @@ export class OrderDetailComponent implements OnInit {
   }
 
   recheckValidity(selectedProduct: SelectedProductsObject) {
-    if ((selectedProduct.quantity < 1 || selectedProduct.quantity === null || selectedProduct.price < 1 || selectedProduct.price === null) && this.selectedProducts) {
+    if (this.productPriceAndQuantityAreValid(selectedProduct) && this.selectedProducts) {
       for (let a = 0; a < this.selectedProducts.length; a++) {
         if (this.selectedProducts[a].id === selectedProduct.id) {
           this.selectedProducts[a].valid = false;
@@ -185,7 +181,6 @@ export class OrderDetailComponent implements OnInit {
             this.selectedProducts[a].totalWithoutTax = selectedProduct.quantity * selectedProduct.price;
             this.selectedProducts[a].totalWithTax = (selectedProduct.quantity * selectedProduct.price) + (selectedProduct.taxed ? (selectedProduct.price * selectedProduct.quantity * this.taxRatio) : 0)
             this.recalculateTotals();
-            console.warn(this.selectedProducts[a]);
             return;
           }
         }
@@ -261,6 +256,10 @@ export class OrderDetailComponent implements OnInit {
       return this.selectedProducts.length > 0;
     }
     return false;
+  }
+
+  private productPriceAndQuantityAreValid(selectedProduct: SelectedProductsObject) {
+    return ((selectedProduct.quantity < 1 || selectedProduct.quantity == null || selectedProduct.price < 1 || selectedProduct.price == null))
   }
 
   private assignProductOptions(products: ApiObject[] | undefined) {
