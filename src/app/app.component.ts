@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'rewaa-case-study';
+
+  constructor(private route: Router) {
+    /**
+     * Temporary for directly opening component
+     */
+    this.route.navigate(['/order-detail']);
+  }
 }
